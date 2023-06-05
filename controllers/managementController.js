@@ -30,58 +30,93 @@ const uploadImage = multer({
 exports.uploadManagementImage = uploadImage.single("image");
 
 exports.createManagement = catchAsync(async (req, res, next) => {
-	const { body, file } = req;
+	try {
+		const { body, file } = req;
 
-	body.image = file.originalname;
-	console.log(body);
-	const managements = await Management.create(body);
-	res.status(201).json({
-		status: "success",
-		data: { managements },
-	});
+		body.image = file.originalname;
+		console.log(body);
+		const managements = await Management.create(body);
+		res.status(201).json({
+			status: "success",
+			data: { managements },
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			error,
+		});
+	}
 });
 
 exports.getAllManagements = catchAsync(async (req, res, next) => {
-	const managements = await Management.find();
-	res.status(200).json({
-		status: "success",
-		data: {
-			managements,
-		},
-	});
+	try {
+		const managements = await Management.find();
+		res.status(200).json({
+			status: "success",
+			data: {
+				managements,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			error,
+		});
+	}
 });
 
 exports.getOneManagement = catchAsync(async (req, res, next) => {
-	const { id } = req.params;
-	const managements = await Management.findById(id);
-	res.status(200).json({
-		status: "success",
-		data: {
-			managements,
-		},
-	});
+	try {
+		const { id } = req.params;
+		const managements = await Management.findById(id);
+		res.status(200).json({
+			status: "success",
+			data: {
+				managements,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			error,
+		});
+	}
 });
 
 exports.updateManagement = catchAsync(async (req, res, next) => {
-	const { id } = req.params;
-	const managements = await Management.findByIdAndUpdate(id, req.body);
-	res.status(200).json({
-		status: "Data updated successfully",
-		data: {
-			managements,
-		},
-	});
+	try {
+		const { id } = req.params;
+		const managements = await Management.findByIdAndUpdate(id, req.body);
+		res.status(200).json({
+			status: "Data updated successfully",
+			data: {
+				managements,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			error,
+		});
+	}
 });
 
 exports.deleteManagement = catchAsync(async (req, res, next) => {
-	const { id } = req.params;
-	const managements = await Management.findByIdAndUpdate(id, {
-		deleted: true,
-	});
-	res.status(200).json({
-		status: "Deleted successfully",
-		data: {
-			managements,
-		},
-	});
+	try {
+		const { id } = req.params;
+		const managements = await Management.findByIdAndUpdate(id, {
+			deleted: true,
+		});
+		res.status(200).json({
+			status: "Deleted successfully",
+			data: {
+				managements,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			error,
+		});
+	}
 });
