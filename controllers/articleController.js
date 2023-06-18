@@ -5,7 +5,7 @@ const { catchAsync } = require("../utils/catchAsync");
 
 const multerStorage = multer.diskStorage({
 	destination: (_, __, cb) => {
-		cb(null, path.join(__dirname, "../public/lawyerImages"));
+		cb(null, path.join(__dirname, "../public/article-images"));
 	},
 	filename: (_, file, cb) => {
 		console.log(file);
@@ -29,22 +29,22 @@ const uploadImage = multer({
 	fileFilter: multerFilter,
 });
 
-exports.uploadLawyerImage = uploadImage.single("image");
+exports.uploadArticleImage = uploadImage.single("image");
 
-exports.createLawyer = catchAsync(async (req, res, next) => {
+exports.createArticle = catchAsync(async (req, res, next) => {
 	try {
 		const { body, file } = req;
 
 		body.image = file?.originalname;
 		console.log(body);
 
-		// const lawyer = await Lawyer.create(body);
-		res.status(201).json({
-			status: "success",
-			data: {
-				lawyer: "Created",
-			},
-		});
+		// save the article here
+		// const article =
+
+		// res.status(201).json({
+		// 	status: "success",
+		// 	data: {	},
+		// });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({
@@ -54,15 +54,14 @@ exports.createLawyer = catchAsync(async (req, res, next) => {
 	}
 });
 
-exports.getAllLawyers = catchAsync(async (req, res, next) => {
+exports.getAllArticles = catchAsync(async (req, res, next) => {
 	try {
-		const lawyers = await Lawyer.find();
+		// Get all articles here
+		/*
 		res.status(200).json({
 			status: "success",
-			data: {
-				lawyers,
-			},
-		});
+			data: {},
+		}); */
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -71,16 +70,15 @@ exports.getAllLawyers = catchAsync(async (req, res, next) => {
 	}
 });
 
-exports.getOneLawyer = catchAsync(async (req, res, next) => {
+exports.getOneArticle = catchAsync(async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const lawyers = await Lawyer.findById(id);
-		res.status(200).json({
-			status: "success",
-			data: {
-				lawyers,
-			},
-		});
+
+		// Get the article here
+
+		// res.status(200).json({
+		// 	data: {},
+		// });
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -89,16 +87,16 @@ exports.getOneLawyer = catchAsync(async (req, res, next) => {
 	}
 });
 
-exports.updateLawyer = catchAsync(async (req, res, next) => {
+exports.updateArticle = catchAsync(async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const lawyers = await Lawyer.findByIdAndUpdate(id, req.body);
-		res.status(200).json({
-			status: "Data updated successfully",
-			data: {
-				lawyers,
-			},
-		});
+
+		// Update the article here
+
+		// res.status(200).json({
+		// 	status: "Updated successfully",
+		// 	data: {},
+		// });
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -107,16 +105,16 @@ exports.updateLawyer = catchAsync(async (req, res, next) => {
 	}
 });
 
-exports.deleteLawyer = catchAsync(async (req, res, next) => {
+exports.deleteArticle = catchAsync(async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const lawyers = await Lawyer.findByIdAndUpdate(id, { deleted: true });
-		res.status(200).json({
-			status: "Deleted successfully",
-			data: {
-				lawyers,
-			},
-		});
+
+		// Delete the article here
+
+		// res.status(200).json({
+		// 	status: "Deleted successfully",
+		// 	data: {},
+		// });
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
