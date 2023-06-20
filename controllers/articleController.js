@@ -2,6 +2,7 @@ const Lawyer = require("../models/lawyerModel");
 const multer = require("multer");
 const path = require("path");
 const { catchAsync } = require("../utils/catchAsync");
+const Article = require("../models/articleModel");
 
 const multerStorage = multer.diskStorage({
 	destination: (_, __, cb) => {
@@ -39,12 +40,12 @@ exports.createArticle = catchAsync(async (req, res, next) => {
 		console.log(body);
 
 		// save the article here
-		// const article =
+		const article = await Article.create(body);
 
-		// res.status(201).json({
-		// 	status: "success",
-		// 	data: {	},
-		// });
+		res.status(201).json({
+			status: "success",
+			data: {article	},
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({
@@ -57,11 +58,11 @@ exports.createArticle = catchAsync(async (req, res, next) => {
 exports.getAllArticles = catchAsync(async (req, res, next) => {
 	try {
 		// Get all articles here
-		/*
+		const article = await Article.find();
 		res.status(200).json({
 			status: "success",
-			data: {},
-		}); */
+			data: {article},
+		}); 
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -75,10 +76,11 @@ exports.getOneArticle = catchAsync(async (req, res, next) => {
 		const { id } = req.params;
 
 		// Get the article here
-
-		// res.status(200).json({
-		// 	data: {},
-		// });
+		const article = await Article.findById(id);
+		res.status(200).json({
+			status:"success",
+			data: {article},
+		});
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -93,10 +95,11 @@ exports.updateArticle = catchAsync(async (req, res, next) => {
 
 		// Update the article here
 
-		// res.status(200).json({
-		// 	status: "Updated successfully",
-		// 	data: {},
-		// });
+		const article = await Article.findByIdAndUpdate(id, req.body);
+		res.status(200).json({
+			status: "Updated successfully",
+			data: {},
+		});
 	} catch (error) {
 		res.status(500).json({
 			status: "error",
@@ -109,12 +112,15 @@ exports.deleteArticle = catchAsync(async (req, res, next) => {
 	try {
 		const { id } = req.params;
 
-		// Delete the article here
-
-		// res.status(200).json({
-		// 	status: "Deleted successfully",
-		// 	data: {},
-		// });
+		const article = await Article.findByIdAndRemove(id, {
+			deleted: true,
+		});
+		res.status(200).json({
+			status: "Deleted successfully",
+			data: {
+				article,
+			},
+		});
 	} catch (error) {
 		res.status(500).json({
 			status: "error",

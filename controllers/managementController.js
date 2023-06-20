@@ -104,7 +104,7 @@ exports.updateManagement = catchAsync(async (req, res, next) => {
 exports.deleteManagement = catchAsync(async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const managements = await Management.findByIdAndUpdate(id, {
+		const managements = await Management.findByIdAndRemove(id, {
 			deleted: true,
 		});
 		res.status(200).json({
